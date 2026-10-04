@@ -1,0 +1,73 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.app h1 {
+    color: white;
+    font-size: 36px;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+.profile-card {
+    width: 350px;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.3);
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #667eea;
+    margin-bottom: 20px;
+}
+
+.profile-card h2 {
+    margin: 10px 0;
+    color: #333;
+    font-size: 25px;
+}
+
+.profile-card p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+@media (max-width: 500px) {
+    .profile-card {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .app h1 {
+        font-size: 30px;
+    }
+}
