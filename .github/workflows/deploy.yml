@@ -1,0 +1,84 @@
+name: Deploy All Assignments
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # ---------- React Assignment 4 ----------
+      - name: Build Assignment 4
+        working-directory: Assignment-4-React-Profile-Card
+        run: |
+          npm ci
+          npm run build
+
+      # ---------- React Assignment 5 ----------
+      - name: Build Assignment 5
+        working-directory: Assignment-5-React-Controlled-Form
+        run: |
+          npm ci
+          npm run build
+
+      # ---------- React Assignment 6 ----------
+      - name: Build Assignment 6
+        working-directory: Assignment-6-React-Counter
+        run: |
+          npm ci
+          npm run build
+
+      # ---------- Prepare GitHub Pages ----------
+      - name: Prepare site
+        run: |
+          mkdir -p site
+
+          cp -r Assignment-1-JS-Calculator site/
+          cp -r Assignment-2-DOM-Todo-List site/
+          cp -r Assignment-3-JS-Form-Validation site/
+
+          mkdir -p site/Assignment-4-React-Profile-Card
+          mkdir -p site/Assignment-5-React-Controlled-Form
+          mkdir -p site/Assignment-6-React-Counter
+
+          cp -r Assignment-4-React-Profile-Card/dist/. site/Assignment-4-React-Profile-Card/
+          cp -r Assignment-5-React-Controlled-Form/dist/. site/Assignment-5-React-Controlled-Form/
+          cp -r Assignment-6-React-Counter/dist/. site/Assignment-6-React-Counter/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
